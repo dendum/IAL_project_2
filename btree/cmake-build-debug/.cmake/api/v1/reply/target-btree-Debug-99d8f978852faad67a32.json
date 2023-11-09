@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "hashtable.exe"
+			"path" : "btree.exe"
 		},
 		{
-			"path" : "hashtable.pdb"
+			"path" : "btree.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -56,7 +56,7 @@
 			]
 		}
 	],
-	"id" : "hashtable::@6890427a1f51a3e7e1df",
+	"id" : "btree::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -76,8 +76,8 @@
 		],
 		"language" : "C"
 	},
-	"name" : "hashtable",
-	"nameOnDisk" : "hashtable.exe",
+	"name" : "btree",
+	"nameOnDisk" : "btree.exe",
 	"paths" : 
 	{
 		"build" : ".",

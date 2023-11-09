@@ -434,8 +434,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "D:/Other/3_semestr/IAL/IAL_project_2/hashtable/cmake-build-debug",
-		"source" : "D:/Other/3_semestr/IAL/IAL_project_2/hashtable"
+		"build" : "D:/Other/3_semestr/IAL/IAL_project_2/btree/cmake-build-debug",
+		"source" : "D:/Other/3_semestr/IAL/IAL_project_2/btree"
 	},
 	"version" : 
 	{

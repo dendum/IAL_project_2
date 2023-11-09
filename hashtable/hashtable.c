@@ -20,18 +20,24 @@ int HT_SIZE = MAX_HT_SIZE;
  * rovnoměrně po všech indexech. Zamyslete sa nad kvalitou zvolené funkce.
  */
 int get_hash(char *key) {
-  int result = 1;
-  int length = strlen(key);
-  for (int i = 0; i < length; i++) {
-    result += key[i];
-  }
-  return (result % HT_SIZE);
+    int result = 1;
+    int length = strlen(key);
+    for (int i = 0; i < length; i++) {
+        result += key[i];
+    }
+    return (result % HT_SIZE);
 }
 
 /*
  * Inicializace tabulky — zavolá sa před prvním použitím tabulky.
  */
 void ht_init(ht_table_t *table) {
+    if (table == NULL)
+        return;
+
+    for (int i = 0; i < HT_SIZE; ++i) {
+        (*table)[i] = NULL;
+    }
 }
 
 /*
@@ -41,7 +47,20 @@ void ht_init(ht_table_t *table) {
  * hodnotu NULL.
  */
 ht_item_t *ht_search(ht_table_t *table, char *key) {
-  return NULL;
+    if (table == NULL || key == NULL)
+        return NULL;
+
+    int index = get_hash(key);
+    ht_item_t *active = (*table)[index];
+    while (active != NULL) {
+//        if (active->key == key) {
+        if (strcmp(active->key, key) == 0) {
+            return active;
+        }
+        active = active->next;
+    }
+
+    return NULL;
 }
 
 /*
@@ -53,6 +72,29 @@ ht_item_t *ht_search(ht_table_t *table, char *key) {
  * synonym zvolte nejefektivnější možnost a vložte prvek na začátek seznamu.
  */
 void ht_insert(ht_table_t *table, char *key, float value) {
+    if (table == NULL || key == NULL)
+        return;
+
+    ht_item_t *active = ht_search(table, key);
+    if (active != NULL) {
+        active->value = value;
+    } else {
+        int index = get_hash(key);
+        ht_item_t *newElem = malloc(sizeof(ht_item_t));
+        if (newElem != NULL) {
+            newElem->key = key;
+            newElem->value = value;
+            newElem->next = (*table)[index];
+            (*table)[index] = newElem;
+//            active = (*table)[index];
+//            if (active != NULL){
+//                newElem->next = active;
+//            }
+//            (*table)[index] = newElem;
+        } else {
+            return;
+        }
+    }
 }
 
 /*
@@ -64,7 +106,14 @@ void ht_insert(ht_table_t *table, char *key, float value) {
  * Při implementaci využijte funkci ht_search.
  */
 float *ht_get(ht_table_t *table, char *key) {
-  return NULL;
+    if (table == NULL || key == NULL)
+        return NULL;
+
+    ht_item_t *active = ht_search(table, key);
+    if (active != NULL) {
+        return &active->value;
+    }
+    return NULL;
 }
 
 /*
@@ -76,6 +125,43 @@ float *ht_get(ht_table_t *table, char *key) {
  * Při implementaci NEPOUŽÍVEJTE funkci ht_search.
  */
 void ht_delete(ht_table_t *table, char *key) {
+    if (table == NULL || key == NULL)
+        return;
+
+    ht_item_t *active;
+    ht_item_t *prev;
+
+    int index = get_hash(key);
+    active = (*table)[index];
+
+    if (strcmp(active->key, key) == 0) {
+        (*table)[index] = active->next;
+        free(active);
+        return;
+    } else {
+        while (active != NULL) {
+            if (strcmp(active->key, key) == 0) {
+                prev->next = active->next;
+                free(active);
+                return;
+            }
+            prev = active;
+            active = active->next;
+        }
+    }
+
+    /*
+    if (table == NULL || key == NULL)
+        return;
+
+    ht_item_t *temp;
+    int index = get_hash(key);
+    while ((*table)[index] != NULL) {
+        temp = (*table)[index];
+        (*table)[index] = (*table)[index]->next;
+        free(temp);
+    }
+    */
 }
 
 /*
@@ -85,4 +171,17 @@ void ht_delete(ht_table_t *table, char *key) {
  * inicializaci.
  */
 void ht_delete_all(ht_table_t *table) {
+    if (table == NULL)
+        return;
+
+    ht_item_t *temp;
+
+    for (int i = 0; i < HT_SIZE; ++i) {
+        while ((*table)[i] != NULL) {
+            temp = (*table)[i];
+            (*table)[i] = (*table)[i]->next;
+            free(temp);
+        }
+//        (*table)[i] = NULL;
+    }
 }

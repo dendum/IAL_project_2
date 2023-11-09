@@ -1,0 +1,3 @@
+D:/Other/3_semestr/IAL/IAL_project_2/btree/cmake-build-debug/CMakeFiles/btree.dir
+D:/Other/3_semestr/IAL/IAL_project_2/btree/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Other/3_semestr/IAL/IAL_project_2/btree/cmake-build-debug/CMakeFiles/rebuild_cache.dir
