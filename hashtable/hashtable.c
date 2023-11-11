@@ -81,6 +81,7 @@ void ht_insert(ht_table_t *table, char *key, float value) {
     } else {
         int index = get_hash(key);
         ht_item_t *newElem = malloc(sizeof(ht_item_t));
+//        ht_item_t *newElem = (ht_item_t *) malloc(sizeof(ht_item_t));
         if (newElem != NULL) {
             newElem->key = key;
             newElem->value = value;
