@@ -59,17 +59,17 @@ void letter_count(bst_node_t **tree, char *input) {
     }
 }
 
-bst_node_t *helpFunc(bst_node_t **nodes, int start, int end) {
+/**
+ * Help function to construct a new balanced tree */
+bst_node_t *buildTreeUtil(bst_node_t **nodes, int start, int end) {
     if (start > end) {
         return NULL;
     }
 
     int mid = (start + end) / 2;
-
     bst_node_t *root = nodes[mid];
-
-    root->left = helpFunc(nodes, start, mid - 1);
-    root->right = helpFunc(nodes, mid + 1, end);
+    root->left = buildTreeUtil(nodes, start, mid - 1);
+    root->right = buildTreeUtil(nodes, mid + 1, end);
 
     return root;
 }
@@ -90,6 +90,6 @@ void bst_balance(bst_node_t **tree) {
     items.capacity = 0;
     items.size = 0;
     bst_inorder(*tree, &items);
-    *tree = helpFunc(items.nodes, 0, items.size - 1);
+    *tree = buildTreeUtil(items.nodes, 0, items.size - 1);
     free(items.nodes);
 }
