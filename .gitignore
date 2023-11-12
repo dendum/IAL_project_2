@@ -51,9 +51,3 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-#Tests
-.tests/
-
-#cmake-b-d
-.btree/cmake-build-debug/
-.hashtable/cmake-build-debug/
