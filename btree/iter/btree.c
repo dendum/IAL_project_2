@@ -285,4 +285,23 @@ void bst_leftmost_postorder(bst_node_t *tree, stack_bst_t *to_visit,
  * Funkci implementujte iterativně pomocí funkce bst_leftmost_postorder a
  * zásobníku uzlů a bool hodnot a bez použití vlastních pomocných funkcí.
  */
-void bst_postorder(bst_node_t *tree, bst_items_t *items) {}
+void bst_postorder(bst_node_t *tree, bst_items_t *items) {
+    stack_bst_t stack;
+    stack_bst_init(&stack);
+    stack_bool_t stackBool;
+    stack_bool_init(&stackBool);
+
+    bool fromLeft;
+    bst_leftmost_postorder(tree,&stack,&stackBool);
+    while (!stack_bst_empty(&stack)){
+        tree = stack_bst_top(&stack);
+        fromLeft = stack_bool_pop(&stackBool);
+        if (fromLeft) {
+            stack_bool_push(&stackBool,false);
+            bst_leftmost_postorder(tree->right,&stack,&stackBool);
+        }else {
+            stack_bst_pop(&stack);
+            bst_add_node_to_items(tree, items);
+        }
+    }
+}
