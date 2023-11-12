@@ -151,18 +151,6 @@ void ht_delete(ht_table_t *table, char *key) {
         }
     }
 
-    /*
-    if (table == NULL || key == NULL)
-        return;
-
-    ht_item_t *temp;
-    int index = get_hash(key);
-    while ((*table)[index] != NULL) {
-        temp = (*table)[index];
-        (*table)[index] = (*table)[index]->next;
-        free(temp);
-    }
-    */
 }
 
 /*
