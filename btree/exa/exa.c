@@ -32,9 +32,47 @@
  * Pro implementaci si můžete v tomto souboru nadefinovat vlastní pomocné funkce.
 */
 void letter_count(bst_node_t **tree, char *input) {
+    if (tree == NULL || input == NULL) {
+        printf("Error here");
+        return;
+    }
+
+    bst_init(tree);
+    char character;
+    int value = 0;
+    for (int i = 0; input[i] != '\0'; ++i) {
+
+        if (input[i] >= 'A' && input[i] <= 'Z') {
+            character = input[i] + 32;
+        } else if ((input[i] >= 'a' && input[i] <= 'z') || (input[i] == ' ')) {
+            character = input[i];
+        } else {
+            character = '_';
+        }
+
+        if (bst_search(*tree, character, &value)) {
+            bst_insert(tree, character, value + 1);
+        } else {
+            bst_insert(tree, character, 1);
+        }
+
+    }
 }
 
+bst_node_t *helpFunc(bst_node_t **nodes, int start, int end) {
+    if (start > end) {
+        return NULL;
+    }
 
+    int mid = (start + end) / 2;
+
+    bst_node_t *root = nodes[mid];
+
+    root->left = helpFunc(nodes, start, mid - 1);
+    root->right = helpFunc(nodes, mid + 1, end);
+
+    return root;
+}
 
 /**
  * Vyvážení stromu.
@@ -47,4 +85,11 @@ void letter_count(bst_node_t **tree, char *input) {
  * Pro implementaci si můžete v tomto souboru nadefinovat vlastní pomocné funkce. Není nutné, aby funkce fungovala *in situ* (in-place).
 */
 void bst_balance(bst_node_t **tree) {
+    bst_items_t items;
+    items.nodes = malloc(sizeof(bst_node_t *));
+    items.capacity = 0;
+    items.size = 0;
+    bst_inorder(*tree, &items);
+    *tree = helpFunc(items.nodes, 0, items.size - 1);
+    free(items.nodes);
 }
